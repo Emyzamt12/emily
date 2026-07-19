@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard IoT - Monitoreo Profesional</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <h1>Plataforma de Gestión y Monitoreo Ambiental OpenAQ</h1>
+        </div>
+        <div class="menu">
+            <a href="#inicio"><i class="fas fa-home"></i> Inicio</a>
+            <a href="#dispositivos"><i class="fas fa-server"></i> Dispositivos</a>
+            <a href="#historico"><i class="fas fa-chart-line"></i> Histórico</a>
+            <a href="#alertas"><i class="fas fa-bell"></i> Alertas</a>
+        </div>
+    </nav>
+
+    <div class="contenedor">
+        <section class="hero" id="inicio" style="text-align: center;">
+            <h2><i class="fas fa-tachometer-alt"></i> Gestión de Dispositivos IoT</h2>
+            <p>Monitoreo visual de sensores, estados y valores históricos en tiempo real</p>
+        </section>
+
+        <div class="grid-principal">
+            <div class="columna-izquierda">
+                <section class="cards-actuales">
+                    <div class="card">
+                        <h3><i class="fas fa-thermometer-half icon"></i> Temperatura</h3>
+                        <div class="valor">28.5 °C</div>
+                        <span class="estado normal">Normal</span>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-tint icon"></i> Humedad</h3>
+                        <div class="valor">72 %</div>
+                        <span class="estado medio">Media</span>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-compress-arrows-alt icon"></i> Presión</h3>
+                        <div class="valor">1012 hPa</div>
+                        <span class="estado activo">Estable</span>
+                    </div>
+                    <div class="card">
+                        <h3><i class="fas fa-wifi icon"></i> Dispositivo</h3>
+                        <div class="valor">Online</div>
+                        <span class="estado activo">Activo</span>
+                    </div>
+                </section>
+
+                <section class="seccion" id="historico">
+                    <h2><i class="fas fa-history"></i> Valores Históricos</h2>
+                    <div class="cards-historicas">
+                        <div class="card-historial">
+                            <h3><i class="fas fa-arrow-up"></i> Temperatura Máxima</h3>
+                            <p>32.1 °C</p>
+                            <small>Registrado hoy a las 14:30</small>
+                        </div>
+                        <div class="card-historial">
+                            <h3><i class="fas fa-arrow-down"></i> Temperatura Mínima</h3>
+                            <p>22.4 °C</p>
+                            <small>Registrado hoy a las 06:10</small>
+                        </div>
+                        <div class="card-historial">
+                            <h3><i class="fas fa-tint"></i> Humedad Máxima</h3>
+                            <p>88 %</p>
+                            <small>Registrado ayer a las 18:45</small>
+                        </div>
+                        <div class="card-historial">
+                            <h3><i class="fas fa-clock"></i> Última Lectura</h3>
+                            <p>Hace 2 minutos</p>
+                            <small>Sensor ESP32 - Nodo 01</small>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="seccion" id="dispositivos">
+                    <h2><i class="fas fa-table"></i> Tabla de Lecturas IoT</h2>
+                    <div class="tabla-contenedor">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Dispositivo</th>
+                                    <th>Temperatura</th>
+                                    <th>Humedad</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>08/07/2026</td>
+                                    <td>09:00</td>
+                                    <td>ESP32-01</td>
+                                    <td>28.5 °C</td>
+                                    <td>72 %</td>
+                                    <td><span class="estado activo">Activo</span></td>
+                                </tr>
+                                <tr>
+                                    <td>08/07/2026</td>
+                                    <td>08:30</td>
+                                    <td>ESP32-01</td>
+                                    <td>27.8 °C</td>
+                                    <td>70 %</td>
+                                    <td><span class="estado normal">Normal</span></td>
+                                </tr>
+                                <tr>
+                                    <td>08/07/2026</td>
+                                    <td>08:00</td>
+                                    <td>ESP32-02</td>
+                                    <td>31.2 °C</td>
+                                    <td>80 %</td>
+                                    <td><span class="estado medio">Revisar</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <div class="columna-derecha">
+                <section class="mapa-seccion">
+                    <h2><i class="fas fa-map-marked-alt"></i> Ubicación de Dispositivos</h2>
+                    <div id="mapa"></div>
+                </section>
+
+                <section class="dispositivos-lista">
+                    <h2><i class="fas fa-server"></i> Dispositivos Activos</h2>
+                    <div class="lista-dispositivos">
+                        <div class="item-dispositivo">
+                            <div class="info-dispositivo">
+                                <div class="nombre-dispositivo">
+                                    <i class="fas fa-microchip"></i>
+                                    <span>ESP32-01</span>
+                                </div>
+                                <div class="ubicacion">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Quito, Ecuador</span>
+                                </div>
+                            </div>
+                            <div class="estado-dispositivo">
+                                <span class="indicador activo"></span>
+                                <span>Online</span>
+                            </div>
+                        </div>
+                        <div class="item-dispositivo">
+                            <div class="info-dispositivo">
+                                <div class="nombre-dispositivo">
+                                    <i class="fas fa-microchip"></i>
+                                    <span>ESP32-02</span>
+                                </div>
+                                <div class="ubicacion">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Quito, Ecuador</span>
+                                </div>
+                            </div>
+                            <div class="estado-dispositivo">
+                                <span class="indicador activo"></span>
+                                <span>Online</span>
+                            </div>
+                        </div>
+                        <div class="item-dispositivo">
+                            <div class="info-dispositivo">
+                                <div class="nombre-dispositivo">
+                                    <i class="fas fa-microchip"></i>
+                                    <span>ESP32-03</span>
+                                </div>
+                                <div class="ubicacion">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Guayaquil, Ecuador</span>
+                                </div>
+                            </div>
+                            <div class="estado-dispositivo">
+                                <span class="indicador activo"></span>
+                                <span>Online</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="estadisticas-rapidas">
+                    <h2><i class="fas fa-chart-pie"></i> Estadísticas</h2>
+                    <div class="grid-estadisticas">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-numero">12</div>
+                                <div class="stat-label">Dispositivos Activos</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-numero">3</div>
+                                <div class="stat-label">Alertas Hoy</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-numero">1.2K</div>
+                                <div class="stat-label">Lecturas/Día</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Dashboard IoT &copy; 2026</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('mapa').setView([-0.1807, -78.4678], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        var marker1 = L.marker([-0.1807, -78.4678]).addTo(map);
+        marker1.bindPopup('<b>ESP32-01</b><br>Quito, Ecuador</br>').openPopup();
+        var marker2 = L.marker([-0.1900, -78.4500]).addTo(map);
+        marker2.bindPopup('<b>ESP32-02</b><br>Quito, Ecuador');
+        var marker3 = L.marker([-0.2000, -78.4800]).addTo(map);
+        marker3.bindPopup('<b>ESP32-03</b><br>Quito, Ecuador');
+    </script>
+</body>
+</html>
